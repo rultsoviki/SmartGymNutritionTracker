@@ -4,6 +4,7 @@ import bot.command.*;
 import service.FoodService;
 import service.NutritionGoalsService;
 import service.UserFoodService;
+import service.UserService;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -11,13 +12,13 @@ import java.util.Map;
 public class CommandResolver {
     private final Map<String, Command> commands;
 
-    public CommandResolver(FoodService foodService, NutritionGoalsService nutritionGoalsService, UserFoodService userFoodService) {
+    public CommandResolver(FoodService foodService, NutritionGoalsService nutritionGoalsService, UserFoodService userFoodService, UserService userService) {
         this.commands = Map.of(
                 "/start", new StartCommand(),
                 "/getExercise", new ExerciseCommand(),
                 "/getNutrition", new NutritionCommand(foodService,userFoodService),
                 "/getHistory", new HistoryCommand(userFoodService,nutritionGoalsService),
-                "/setGoal", new NutritionGoalCommand(nutritionGoalsService)
+                "/setGoal", new NutritionGoalCommand(nutritionGoalsService,userService)
         );
     }
 

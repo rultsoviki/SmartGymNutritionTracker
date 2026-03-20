@@ -11,13 +11,17 @@ public class HistoryCommand implements Command {
 
     @Override
     public String execute(Long id, String... args) {
-        String info = userFoodService.getFoodHistory(id);
-        String calories = nutritionGoalsService.calculateRemainingCalories(id);
+        try {
+            String info = userFoodService.getFoodHistory(id);
+            String calories = nutritionGoalsService.calculateRemainingCalories(id);
 
-        String caloriesMessage = (calories == null || calories.isEmpty())
-                ? "Цель не установлена"
-                : calories;
+            String caloriesMessage = (calories == null || calories.isEmpty())
+                    ? "Цель не установлена"
+                    : calories;
+            return info + "\n" + caloriesMessage;
 
-        return info + "\n" + caloriesMessage;
+        } catch (Exception e) {
+            return "Вы еще не чего не кушали";
+        }
     }
 }

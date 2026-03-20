@@ -35,14 +35,13 @@ public class UserFoodService {
         List<UserFood> userFoods = transactionSessionManager.inSession(session -> {
             return userFoodRepository.findAllByTelegramId(session, telegramId);
         });
-
         StringBuilder result = new StringBuilder("История питания:\n\n");
         for (UserFood userFood : userFoods) {
-            result.append(userFood.getDate()).append("\n")
+            result.append("\n")
+                    .append(userFood.getDate()).append("\n")
                     .append("Наименование продукта : ").append(userFood.getFood().getFoodName())
                     .append("  |  Белок : ").append(userFood.getFood().getProteinG())
-                    .append(" г  |  Калории : ").append(userFood.getFood().getCaloriesCal())
-                    .append(" ккал\n");
+                    .append(" г  |  Калории : ").append(userFood.getFood().getCaloriesCal());
         }
         return result.toString() + allBju(userFoods);
     }
@@ -54,7 +53,8 @@ public class UserFoodService {
             calories += userFood.getFood().getCaloriesCal();
             protein += userFood.getFood().getProteinG();
         }
-        return "Каллории: " + calories + " ккал\n" + "Белки: " + protein + " г";
+        return "\nОбщее количество :\n" +
+                "Каллории: " + calories + " ккал\n" + "Белки: " + protein + " г";
     }
 
     public List<UserFood> findAllFood() {

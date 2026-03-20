@@ -51,4 +51,5 @@ public class UserService extends BaseService<User, Long, UserRepository> {
         return repository.findByTelegramId(session, id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 }

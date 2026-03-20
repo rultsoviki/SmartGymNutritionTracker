@@ -34,7 +34,9 @@ public class User {
     @Column(nullable = false)
     private double height;
 
-    private String goal;
+    @OneToOne
+    @JoinColumn(name = "goal_id")
+    private NutritionGoals nutritionGoals;
 
 
     @CreationTimestamp

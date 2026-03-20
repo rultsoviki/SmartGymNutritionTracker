@@ -19,15 +19,13 @@ import service.UserService;
 public class GymNutritionTrackerBot extends TelegramLongPollingBot {
     private final UserService userService;
     private final CommandResolver commandResolver;
-   // private final UserFoodService userFoodService;
     private final NutritionGoalsService nutritionGoalsService;
 
 
     public GymNutritionTrackerBot(UserService userService, FoodService foodService, UserFoodService userFoodService, NutritionGoalsService nutritionGoalsService) {
         super(TelegramConfig.getBotToken());
         this.userService = userService;
-        this.commandResolver = new CommandResolver(foodService, nutritionGoalsService,userFoodService);
-      //  this.userFoodService = userFoodService;
+        this.commandResolver = new CommandResolver(foodService, nutritionGoalsService,userFoodService,userService);
         this.nutritionGoalsService = nutritionGoalsService;
     }
 
@@ -56,23 +54,6 @@ public class GymNutritionTrackerBot extends TelegramLongPollingBot {
         try {
             CommandResolver.ResolvedCommand resolvedCommand = commandResolver.resolve(telegramgId, text);
             String result = resolvedCommand.command().execute(telegramgId, resolvedCommand.args());
-// 👇 ВОТ ТУТ ЛОВИМ
-
-
-//            if (resolvedCommand.command() instanceof HistoryCommand) {
-//                String info = userFoodService.getFoodHistory(telegramgId);
-//                String calloris = nutritionGoalsService.calculateRemainingCalories(telegramgId);
-//                sendMessage(telegramgId, info + "\\n" + calloris);
-//                return;
-//            }
-
-            if (resolvedCommand.command() instanceof NutritionGoalCommand) {
-                String[] args = resolvedCommand.args();
-                nutritionGoalsService.setGoal(telegramgId, Double.parseDouble(args[0]));
-                sendMessage(telegramgId, "Установили цель " + args[0] + " ккал");
-                return;
-            }
-
 
             sendMessage(telegramgId, result);
         } catch (CommandNotFoundException e) {
